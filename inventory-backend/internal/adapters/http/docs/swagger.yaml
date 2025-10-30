@@ -1,0 +1,367 @@
+definitions:
+  domain.InventoryItem:
+    properties:
+      created_at:
+        type: string
+      id:
+        description: Identificador único del ítem
+        type: integer
+      name:
+        description: Nombre del producto
+        type: string
+      price:
+        description: Precio unitario del producto
+        type: number
+      quantity:
+        description: Cantidad disponible en inventario
+        type: integer
+    required:
+    - name
+    - price
+    - quantity
+    type: object
+  domain.InventoryMovement:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      movement_type:
+        description: '"entry" or "exit"'
+        type: string
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+      reason:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  http.ItemRequest:
+    properties:
+      name:
+        minLength: 2
+        type: string
+      price:
+        type: number
+      quantity:
+        minimum: 0
+        type: integer
+    required:
+    - name
+    - price
+    - quantity
+    type: object
+  http.MovementRequest:
+    properties:
+      cantidad:
+        type: integer
+      motivo:
+        type: string
+      product_id:
+        type: integer
+      tipo:
+        enum:
+        - entrada
+        - salida
+        type: string
+      user_id:
+        description: temporal hasta JWT
+        type: integer
+    required:
+    - cantidad
+    - motivo
+    - product_id
+    - tipo
+    - user_id
+    type: object
+  http.PatchItemRequest:
+    properties:
+      name:
+        type: string
+      price:
+        type: number
+      quantity:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/items:
+    get:
+      description: Get all inventory items
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.InventoryItem'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List all items
+      tags:
+      - items
+    post:
+      consumes:
+      - application/json
+      description: Add a new item to the inventory
+      parameters:
+      - description: Item info
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/http.ItemRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.InventoryItem'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add a new item
+      tags:
+      - items
+  /api/v1/items/{id}:
+    delete:
+      description: Delete an inventory item by its ID
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete an item
+      tags:
+      - items
+    get:
+      description: Get a single inventory item by its ID
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.InventoryItem'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get item by ID
+      tags:
+      - items
+    patch:
+      consumes:
+      - application/json
+      description: Update only the fields provided of an inventory item
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Fields to update
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/http.PatchItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.InventoryItem'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Partially update an item
+      tags:
+      - items
+    put:
+      consumes:
+      - application/json
+      description: Update an existing inventory item
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated item info
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/http.ItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.InventoryItem'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update an item
+      tags:
+      - items
+  /api/v1/items/search:
+    get:
+      description: Search items by name
+      parameters:
+      - description: Name query
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.InventoryItem'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Search items
+      tags:
+      - items
+  /api/v1/movements:
+    get:
+      description: Obtiene la lista completa de movimientos registrados
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.InventoryMovement'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Listar todos los movimientos de inventario
+      tags:
+      - Movements
+    post:
+      consumes:
+      - application/json
+      description: Registra una entrada o salida de inventario
+      parameters:
+      - description: Datos del movimiento
+        in: body
+        name: movement
+        required: true
+        schema:
+          $ref: '#/definitions/http.MovementRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.InventoryMovement'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear un nuevo movimiento de inventario
+      tags:
+      - Movements
+swagger: "2.0"

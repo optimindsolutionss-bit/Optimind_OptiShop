@@ -1,0 +1,12 @@
+# Backend
+inventory-backend/bin/
+inventory-backend/vendor/
+
+# Frontend
+inventory-frontend/node_modules/
+inventory-frontend/dist/
+
+# Temporales
+tmp/
+*.log
+.DS_Store
