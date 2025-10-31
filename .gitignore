@@ -10,3 +10,12 @@ inventory-frontend/dist/
 tmp/
 *.log
 .DS_Store
+
+# Shopease (nuevo frontend)
+shopease/node_modules/
+shopease/dist/
+
+# Archivos temporales o cache
+*.env
+*.log
+

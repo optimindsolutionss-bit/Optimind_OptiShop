@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Té Verde Orgánico",
+    "price": 15000,
+    "image": "/images/te-verde-organico.jpg",
+    "category": "Bebidas"
+  },
+  {
+    "id": 2,
+    "name": "Aceite de Coco Virgen",
+    "price": 28000,
+    "image": "/images/aceite-de-coco.jpg",
+    "category": "Aceites"
+  },
+  {
+    "id": 3,
+    "name": "Semillas de Chía 500g",
+    "price": 12000,
+    "image": "/images/semillas-de-chia.jpg",
+    "category": "Semillas"
+  },
+  {
+    "id": 4,
+    "name": "Pan Integral Artesanal",
+    "price": 9500,
+    "image": "/images/pan-integral.jpg",
+    "category": "Panadería"
+  },
+  {
+    "id": 5,
+    "name": "Miel de Abeja Pura 1L",
+    "price": 32000,
+    "image": "/images/miel.jpg",
+    "category": "Endulzantes"
+  },
+  {
+    "id": 6,
+    "name": "Harina de Avena Orgánica",
+    "price": 18000,
+    "image": "/images/harina-de-avena.jpg",
+    "category": "Harinas"
+  },
+  {
+    "id": 7,
+    "name": "Quinoa Blanca 500g",
+    "price": 20000,
+    "image": "/images/quinoa-real.jpg",
+    "category": "Semillas"
+  },
+  {
+    "id": 8,
+    "name": "Galletas de Avena y Miel",
+    "price": 11000,
+    "image": "/images/galletas-miel-avena.jpg",
+    "category": "Snacks"
+  },
+  {
+    "id": 9,
+    "name": "Leche de Almendras 1L",
+    "price": 12500,
+    "image": "/images/leche-de-almendras.jpg",
+    "category": "Bebidas"
+  },
+  {
+    "id": 10,
+    "name": "Azúcar de Coco 500g",
+    "price": 16000,
+    "image": "/images/azucar-coco.jpg",
+    "category": "Endulzantes"
+  }
+]
